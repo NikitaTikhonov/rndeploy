@@ -36,6 +36,11 @@ Build application release
 fastlane android dev
 ```
 Deploy to Firebase internal developer group
+### android publish_to_firebase
+```
+fastlane android publish_to_firebase
+```
+Deploy to Firebase
 
 ----
 

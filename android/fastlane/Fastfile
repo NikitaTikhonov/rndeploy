@@ -30,21 +30,40 @@ platform :android do
     # You can also use other beta testing services here
   end
 
-desc "Build application release"
-            lane :build do
-                 gradle(task: 'clean')
-                 gradle(task: "assemble", build_type: "Release")
-            end
+  desc "Build application release"
+  lane :build do
+    gradle(task: 'clean')
+    gradle(task: "assemble", build_type: "Release")
+  end
 
 
-   desc "Deploy to Firebase internal developer group"
-             lane :dev do
-                build
-                 firebase_app_distribution(
-                    "firebase_cli_token":"#{options[:firebase_token]}",
-                     app: "{options[:firebase_app_id]}",
-                     apk_path: "app/build/outputs/apk/release/app-release.apk",
-                     "groups": "test",
-                 )
-              end
+  desc "Deploy to Firebase internal developer group"
+  lane :dev do |options|
+    build
+    commit = last_git_commit
+    commit_notes = commit[:message]
+    publish_to_firebase(
+        flavor: options[:flavor],
+        branch: options[:branch],
+        apk_path: "app/build/outputs/apk/release/app-release.apk",
+        groups: "test",
+        notes: commit_notes,
+        author: commit[:author],
+        app_id: options[:app_id],
+        firebase_token: options[:firebase_token]
+    )
+  end
+
+  desc "Deploy to Firebase"
+  lane :publish_to_firebase do |options|
+    build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
+
+    firebase_app_distribution(
+        app: "#{options[:app_id]}",
+        groups: "testers",
+        release_notes: build_notes,
+        apk_path: "app/build/outputs/apk/release/app-release.apk",
+        firebase_cli_token: "#{options[:firebase_token]}"
+    )
+  end
 end
