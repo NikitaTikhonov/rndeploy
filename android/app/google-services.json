@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1079470051825",
+    "firebase_url": "https://cicle-test.firebaseio.com",
+    "project_id": "cicle-test",
+    "storage_bucket": "cicle-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079470051825:android:0a7f73468aa6cb6ac8b450",
+        "android_client_info": {
+          "package_name": "com.nikita.rndeploy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079470051825-s4d42102gk328mh8d7a3ovbb17kum4ni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlB2lI413BvjgNx4p3sTtjSWj485X1gnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079470051825-s4d42102gk328mh8d7a3ovbb17kum4ni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
