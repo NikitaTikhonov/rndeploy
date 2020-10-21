@@ -60,7 +60,7 @@ platform :android do
 
     firebase_app_distribution(
         app: "#{options[:app_id]}",
-        groups: "testers",
+        groups: "test",
         release_notes: build_notes,
         apk_path: "app/build/outputs/apk/release/app-release.apk",
         firebase_cli_token: "#{options[:firebase_token]}"
