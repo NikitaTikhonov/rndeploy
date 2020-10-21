@@ -56,7 +56,7 @@ platform :android do
 
   desc "Deploy to Firebase"
   lane :publish_to_firebase do |options|
-    build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
+    build_notes = "Branch: #{options[:branch]}.  Built by #{options[:author]}"
 
     firebase_app_distribution(
         app: "#{options[:app_id]}",
