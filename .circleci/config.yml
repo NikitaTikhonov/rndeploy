@@ -1,8 +1,6 @@
 version: 2.1
 references:
-  workspace: &workspace
-    ~/src
-
+  working_directory: ~/rnDeploy/android
 
   create_keystore_properties: &create_keystore_properties
     run:
