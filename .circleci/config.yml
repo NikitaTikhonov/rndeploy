@@ -132,7 +132,7 @@ jobs:
           key: pods-v1-{{ checksum "ios/Podfile.lock" }}-{{ arch }}
 
       - run:
-          - name: Set Ruby Version
+          name: Set Ruby Version
           command: echo 'chruby ruby-2.6.3' >> ~/.bash_profile
       - run:
           command: pod install
