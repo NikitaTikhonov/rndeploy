@@ -133,7 +133,7 @@ jobs:
 
       - run:
           name: Set Ruby Version
-          command: echo 'chruby ruby-2.6.3' >> ~/.bash_profile
+          command: echo 'chruby ruby-2.6' >> ~/.bash_profile
       - run:
           command: pod install
           working_directory: ios
