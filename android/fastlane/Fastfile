@@ -21,15 +21,6 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
   desc "Build application release"
   lane :build do
     gradle(task: 'clean')
@@ -56,7 +47,6 @@ platform :android do
   desc "Deploy to Firebase"
   lane :publish_to_firebase do |options|
     build_notes = "Branch: #{options[:branch]}.  Built by #{options[:author]}"
-
     firebase_app_distribution(
         app: "#{options[:app_id]}",
         groups: options[:groups],

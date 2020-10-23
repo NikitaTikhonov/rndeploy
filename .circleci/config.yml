@@ -178,4 +178,8 @@ workflows:
       - android-build-and-test:
           requires:
             - node
+          filters:
+            branches:
+              only:
+                - develop
 

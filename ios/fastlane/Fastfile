@@ -16,49 +16,44 @@
 default_platform(:ios)
 
 platform :ios do
-     before_all do
-        setup_circle_ci
-      end
+  before_all do
+    setup_circle_ci
+  end
 
-     desc "Runs all the tests"
-       lane :test do
-         scan
-       end
-        desc "Ad-hoc build"
-         lane :adhoc do
-           match(type: "adhoc")
-           gym(export_method: "ad-hoc")
-         end
+  desc "Runs all the tests"
+  lane :test do
+    scan
+  end
 
-          desc "Deploy to Firebase internal developer group"
-                lane :dev do |options|
-                    adhoc
-                    commit = last_git_commit
-                    commit_notes = commit[:message]
-                    publish_to_firebase(
-                            branch: options[:branch],
-                            groups: options[:groups],
-                            notes: commit_notes,
-                            author: commit[:author],
-                            app_id: options[:app_id],
-                            firebase_token: options[:firebase_token]
-                        )
-                end
+  desc "Ad-hoc build"
+  lane :adhoc do
+    match(type: "adhoc")
+    gym(export_method: "ad-hoc")
+  end
 
+  desc "Deploy to Firebase internal tester group"
+  lane :dev do |options|
+    adhoc
+    commit = last_git_commit
+    commit_notes = commit[:message]
+    publish_to_firebase(
+        branch: options[:branch],
+        groups: options[:groups],
+        notes: commit_notes,
+        author: commit[:author],
+        app_id: options[:app_id],
+        firebase_token: options[:firebase_token]
+    )
+  end
 
-        lane :publish_to_firebase do |options|
-          build_notes = "Branch: #{options[:branch]}.  Built by #{options[:author]}"
-
-          firebase_app_distribution(
-              app: "#{options[:app_id]}",
-              groups: "#{options[:groups]}",
-              release_notes: build_notes,
-              firebase_cli_token: "#{options[:firebase_token]}"
-          )
-        end
-
-  desc "Description of what the lane does"
-  lane :custom_lane do
-    # add actions here: https://docs.fastlane.tools/actions
+  desc "Deploy to Firebase"
+  lane :publish_to_firebase do |options|
+    build_notes = "Branch: #{options[:branch]}.  Built by #{options[:author]}"
+    firebase_app_distribution(
+        app: "#{options[:app_id]}",
+        groups: "#{options[:groups]}",
+        release_notes: build_notes,
+        firebase_cli_token: "#{options[:firebase_token]}"
+    )
   end
 end
