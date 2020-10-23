@@ -36,7 +36,6 @@ platform :android do
     gradle(task: "assemble", build_type: "Release")
   end
 
-
   desc "Deploy to Firebase internal developer group"
   lane :dev do |options|
     build
@@ -46,7 +45,7 @@ platform :android do
         flavor: options[:flavor],
         branch: options[:branch],
         apk_path: "app/build/outputs/apk/release/app-release.apk",
-        groups: "test",
+        groups: options[:groups],
         notes: commit_notes,
         author: commit[:author],
         app_id: options[:app_id],
@@ -60,7 +59,7 @@ platform :android do
 
     firebase_app_distribution(
         app: "#{options[:app_id]}",
-        groups: "test",
+        groups: options[:groups],
         release_notes: build_notes,
         apk_path: "app/build/outputs/apk/release/app-release.apk",
         firebase_cli_token: "#{options[:firebase_token]}"

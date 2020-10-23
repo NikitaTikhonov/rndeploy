@@ -24,7 +24,6 @@ platform :ios do
        lane :test do
          scan
        end
-
         desc "Ad-hoc build"
          lane :adhoc do
            match(type: "adhoc")
@@ -32,14 +31,31 @@ platform :ios do
          end
 
           desc "Deploy to Firebase internal developer group"
-                lane :dev do
+                lane :dev do |options|
                     adhoc
-                    firebase_app_distribution(
-                        app: "1:1079470051825:ios:9e22ac3e4ba5858fc8b450",
-                        "groups": "test",
-                        release_notes: "test",
-                    )
+                    commit = last_git_commit
+                    commit_notes = commit[:message]
+                    publish_to_firebase(
+                            branch: options[:branch],
+                            groups: options[:groups],
+                            notes: commit_notes,
+                            author: commit[:author],
+                            app_id: options[:app_id],
+                            firebase_token: options[:firebase_token]
+                        )
                 end
+
+
+        lane :publish_to_firebase do |options|
+          build_notes = "Branch: #{options[:branch]}.  Built by #{options[:author]}"
+
+          firebase_app_distribution(
+              app: "#{options[:app_id]}",
+              groups: "#{options[:groups]}",
+              release_notes: build_notes,
+              firebase_cli_token: "#{options[:firebase_token]}"
+          )
+        end
 
   desc "Description of what the lane does"
   lane :custom_lane do

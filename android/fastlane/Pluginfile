@@ -3,4 +3,3 @@
 # Ensure this file is checked in to source control!
 
 gem 'fastlane-plugin-firebase_app_distribution'
-1:1079470051825:ios:9e22ac3e4ba5858fc8b450
