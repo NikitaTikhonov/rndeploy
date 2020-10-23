@@ -155,7 +155,7 @@ jobs:
 
       - run:
           name: Fastlane
-          command: bundle exec fastlane test
+          command: bundle exec fastlane dev
           working_directory: ios
 
       - store_artifacts:

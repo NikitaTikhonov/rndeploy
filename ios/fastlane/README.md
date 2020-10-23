@@ -26,6 +26,11 @@ Runs all the tests
 fastlane ios adhoc
 ```
 Ad-hoc build
+### ios dev
+```
+fastlane ios dev
+```
+Deploy to Firebase internal developer group
 ### ios custom_lane
 ```
 fastlane ios custom_lane
