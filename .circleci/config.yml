@@ -124,7 +124,7 @@ jobs:
           command: |
             mkdir -p test-results/fastlane
             bundle exec fastlane staging flavor:alpha branch:${CIRCLE_BRANCH} \
-            app_id:$FIREBASE_APP_ID firebase_token:$FIREBASE_TOKEN groups:"staging" MY_VARIABLE:$MY_VARIABLE
+            app_id:$FIREBASE_APP_ID firebase_token:$FIREBASE_TOKEN groups:"staging" my_variable:$MY_VARIABLE
 
       - store_test_results:
           path: test-results
