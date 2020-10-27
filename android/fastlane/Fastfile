@@ -26,6 +26,9 @@ platform :android do
   lane :write_to_env do |options|
        File.open("../../.env","a") do |f|
          options.each do |key, value|
+         print "!!!!!!!!!#{key}------------"
+         print "!!!!!!!!!#{value}------------"
+
            f.puts "#{key}=#{value}"
          end
        end
