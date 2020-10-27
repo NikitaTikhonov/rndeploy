@@ -21,21 +21,31 @@ or alternatively using `brew install fastlane`
 fastlane android test
 ```
 Runs all the tests
-### android t
+### android write_to_env
 ```
-fastlane android t
+fastlane android write_to_env
 ```
-Build application release
+Add env variables
 ### android build_staging
 ```
 fastlane android build_staging
 ```
-Build application release
+Build application staging release
+### android build
+```
+fastlane android build
+```
+
 ### android dev
 ```
 fastlane android dev
 ```
 Deploy to Firebase internal developer/tester group
+### android staging
+```
+fastlane android staging
+```
+
 ### android publish_to_firebase
 ```
 fastlane android publish_to_firebase

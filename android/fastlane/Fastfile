@@ -23,23 +23,25 @@ platform :android do
 
 
   desc "Add env variables"
-  lane :write_to_env do |options|
+  lane :write_to_env do
+  options = {}
+  options[:MY_VARIABLE] = "ZALUPA PADLA"
        File.open("../../.env","a") do |f|
          options.each do |key, value|
          print "!!!!!!!!!#{key}------------"
          print "!!!!!!!!!#{value}------------"
 
-           f.puts "#{key}=#{value}"
+           f.puts "#{key}=\"#{value}\""
          end
        end
    end
 
   desc "Build application staging release"
-  lane :build_staging do |options|
+  lane :build_staging do
      android_set_version_name(
          version_name: "2.0"
      )
-     write_to_env(options)
+     write_to_env
      gradle(task: 'clean')
      gradle(task: "assemble", build_type: "Release")
   end
@@ -68,10 +70,7 @@ platform :android do
   end
 
     lane :staging do |options|
-      env_variables = {}
-      env_variables[:MY_VARIABLE] = options[:my_variable]
-      print env_variables
-      build_staging env_variables
+      build_staging
       commit = last_git_commit
       commit_notes = commit[:message]
       publish_to_firebase(
