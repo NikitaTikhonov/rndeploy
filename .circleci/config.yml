@@ -221,8 +221,6 @@ workflows:
             branches:
               only:
                 - develop
-          environment:
-            GROUP: "test"
       - android-staging:
           requires:
             - node
