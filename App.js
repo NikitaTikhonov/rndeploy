@@ -18,13 +18,14 @@ import {
 
 import {
   Header,
-  LearnMoreLinks,
   Colors,
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import Config from 'react-native-config';
 
 const App: () => React$Node = () => {
+  console.log(Config);
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -59,12 +60,13 @@ const App: () => React$Node = () => {
               </Text>
             </View>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
+              <Text style={[styles.sectionTitle, {color: 'red'}]}>
+                {Config.MY_VARIABLE}
+              </Text>
               <Text style={styles.sectionDescription}>
                 Read the docs to discover what to do next:
               </Text>
             </View>
-            <LearnMoreLinks />
           </View>
         </ScrollView>
       </SafeAreaView>

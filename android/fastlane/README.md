@@ -21,21 +21,21 @@ or alternatively using `brew install fastlane`
 fastlane android test
 ```
 Runs all the tests
-### android beta
+### android t
 ```
-fastlane android beta
+fastlane android t
 ```
-Submit a new Beta Build to Crashlytics Beta
-### android build
+Build application release
+### android build_staging
 ```
-fastlane android build
+fastlane android build_staging
 ```
 Build application release
 ### android dev
 ```
 fastlane android dev
 ```
-Deploy to Firebase internal developer group
+Deploy to Firebase internal developer/tester group
 ### android publish_to_firebase
 ```
 fastlane android publish_to_firebase

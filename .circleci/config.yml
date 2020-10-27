@@ -95,6 +95,45 @@ jobs:
       - store_artifacts:
           path: test-results
 
+
+  android-staging:
+    working_directory: ~/rnDeploy/android
+    docker:
+      - image: circleci/android:api-29-node
+    steps:
+      - checkout:
+          path: ~/rnDeploy
+
+      - attach_workspace:
+          at: ~/rnDeploy
+      - *create_keystore_properties
+      - *decode_android_key
+
+      - restore_cache:
+          key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
+
+      - run: bundle install
+
+      - save_cache:
+          key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: fastlane deploy
+          command: |
+            mkdir -p test-results/fastlane
+            bundle exec fastlane staging flavor:alpha branch:${CIRCLE_BRANCH} \
+            app_id:$FIREBASE_APP_ID firebase_token:$FIREBASE_TOKEN groups:"staging" MY_VARIABLE:$MY_VARIABLE
+
+      - store_test_results:
+          path: test-results
+
+      - store_artifacts:
+          path: test-results
+
+
+
   macos-build-and-test:
     working_directory: ~/rnDeploy
     macos:
@@ -155,7 +194,7 @@ jobs:
 
       - run:
           name: Fastlane
-          command: bundle exec fastlane dev branch:${CIRCLE_BRANCH} app_id:$FIREBASE_IOS_APP_ID firebase_token:$FIREBASE_TOKEN groups:"test"
+          command: bundle exec fastlane dev branch:${CIRCLE_BRANCH} app_id:$FIREBASE_IOS_APP_ID firebase_token:$FIREBASE_TOKEN groups:$GROUP
           working_directory: ios
 
       - store_artifacts:
@@ -182,4 +221,12 @@ workflows:
             branches:
               only:
                 - develop
-
+          environment:
+            GROUP: "test"
+      - android-staging:
+          requires:
+            - node
+          filters:
+            branches:
+              only:
+                - staging

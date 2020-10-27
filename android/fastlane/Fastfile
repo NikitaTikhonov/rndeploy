@@ -21,13 +21,33 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Build application release"
-  lane :build do
-    gradle(task: 'clean')
-    gradle(task: "assemble", build_type: "Release")
+
+  desc "Add env variables"
+  lane :write_to_env do |options|
+       File.open("../../.env","a") do |f|
+         options.each do |key, value|
+           f.puts "#{key}=#{value}"
+         end
+       end
+   end
+
+  desc "Build application staging release"
+  lane :build_staging do |options|
+     android_set_version_name(
+         version_name: "2.0"
+     )
+     write_to_env options
+     gradle(task: 'clean')
+     gradle(task: "assemble", build_type: "Release")
   end
 
-  desc "Deploy to Firebase internal developer group"
+    lane :build do
+       android_set_version_code
+       gradle(task: 'clean')
+       gradle(task: "assemble", build_type: "Release")
+    end
+
+  desc "Deploy to Firebase internal developer/tester group"
   lane :dev do |options|
     build
     commit = last_git_commit
@@ -44,9 +64,27 @@ platform :android do
     )
   end
 
+    lane :staging do |options|
+      env_variables = {}
+      env_variables[:MY_VARIABLE] = options[:MY_VARIABLE]
+      build_staging env_variables
+      commit = last_git_commit
+      commit_notes = commit[:message]
+      publish_to_firebase(
+          flavor: options[:flavor],
+          branch: options[:branch],
+          apk_path: "app/build/outputs/apk/release/app-release.apk",
+          groups: options[:groups],
+          notes: commit_notes,
+          author: commit[:author],
+          app_id: options[:app_id],
+          firebase_token: options[:firebase_token]
+      )
+    end
+
   desc "Deploy to Firebase"
   lane :publish_to_firebase do |options|
-    build_notes = "Branch: #{options[:branch]}.  Built by #{options[:author]}"
+    build_notes = "Built by #{options[:author]}\n Notes: commit_notes"
     firebase_app_distribution(
         app: "#{options[:app_id]}",
         groups: options[:groups],
