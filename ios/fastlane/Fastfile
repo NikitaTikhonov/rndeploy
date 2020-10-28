@@ -25,11 +25,27 @@ platform :ios do
     scan
   end
 
+  desc "Add env variables"
+    lane :write_to_env do |options|
+         File.open("../../.env","a") do |f|
+           options.each do |key, value|
+             f.puts "#{key}=\"#{value}\""
+           end
+         end
+     end
+
   desc "Ad-hoc build"
   lane :adhoc do
     match(type: "adhoc")
     gym(export_method: "ad-hoc")
   end
+
+   lane :adhoc_staging do |options|
+      write_to_env options
+      match(type: "adhoc")
+      gym(export_method: "ad-hoc")
+    end
+
 
   desc "Deploy to Firebase internal tester group"
   lane :dev do |options|
@@ -46,9 +62,25 @@ platform :ios do
     )
   end
 
+  lane :staging do |options|
+      env_variables = {}
+      env_variables[:MY_VARIABLE] = options[:my_variable]
+      adhoc_staging env_variables
+      commit = last_git_commit
+      commit_notes = commit[:message]
+      publish_to_firebase(
+          branch: options[:branch],
+          groups: options[:groups],
+          notes: commit_notes,
+          author: commit[:author],
+          app_id: options[:app_id],
+          firebase_token: options[:firebase_token]
+      )
+    end
+
   desc "Deploy to Firebase"
   lane :publish_to_firebase do |options|
-    build_notes = "Branch: #{options[:branch]}.  Built by #{options[:author]}"
+    build_notes = "Branch: #{options[:branch]}. Built by #{options[:author]}.\n Notes: ${notes}"
     firebase_app_distribution(
         app: "#{options[:app_id]}",
         groups: "#{options[:groups]}",

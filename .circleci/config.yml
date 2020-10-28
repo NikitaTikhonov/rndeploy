@@ -202,6 +202,75 @@ jobs:
 
       - store_test_results:
           path: output/scan
+  macos-staging:
+    working_directory: ~/rnDeploy
+    macos:
+      xcode: 12.1.0
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: test
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+
+      - restore_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+
+      - run: yarn install
+
+      - save_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+          paths:
+            - ~/.cache/yarn
+
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+          paths:
+            - node_modules
+
+      - restore_cache:
+          key: bundle-v1-{{ checksum "ios/Gemfile.lock" }}-{{ arch }}
+
+      #Pods directory is ignored to match default RN setup, but can also check them into source control
+      #https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
+      - restore_cache:
+          key: pods-v1-{{ checksum "ios/Podfile.lock" }}-{{ arch }}
+
+      - run:
+          command: pod install
+          working_directory: ios
+
+      - run:
+          name: Set Ruby Version
+          command: echo 'chruby ruby-2.6' >> ~/.bash_profile
+
+      - run:
+          command: bundle install
+          working_directory: ios
+
+      - save_cache:
+          key: bundle-v1-{{ checksum "ios/Gemfile.lock" }}-{{ arch }}
+          paths:
+            - vendor/bundle
+
+      - save_cache:
+          key: pods-v1-{{ checksum "ios/Podfile.lock" }}-{{ arch }}
+          paths:
+            - ios/Pods
+
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane staging branch:${CIRCLE_BRANCH} app_id:$FIREBASE_IOS_APP_ID\
+            firebase_token:$FIREBASE_TOKEN groups:"staging" my_variable:$MY_VARIABLE
+          working_directory: ios
+
+      - store_artifacts:
+          path: output
+
+      - store_test_results:
+          path: output/scan
 
 workflows:
   node-android-ios:
@@ -222,6 +291,13 @@ workflows:
               only:
                 - develop
       - android-staging:
+          requires:
+            - node
+          filters:
+            branches:
+              only:
+                - staging
+      - macos-staging:
           requires:
             - node
           filters:
