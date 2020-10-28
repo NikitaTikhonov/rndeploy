@@ -296,7 +296,7 @@ workflows:
           filters:
             branches:
               only:
-                - staging
+                - test
       - macos-staging:
           requires:
             - node
