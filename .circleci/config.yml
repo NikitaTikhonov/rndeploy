@@ -194,7 +194,7 @@ jobs:
 
       - run:
           name: Fastlane
-          command: bundle exec fastlane dev branch:${CIRCLE_BRANCH} app_id:$FIREBASE_IOS_APP_ID firebase_token:$FIREBASE_TOKEN groups:$GROUP
+          command: bundle exec fastlane dev branch:${CIRCLE_BRANCH} app_id:$FIREBASE_IOS_APP_ID firebase_token:$FIREBASE_TOKEN groups:"test"
           working_directory: ios
 
       - store_artifacts:
@@ -295,7 +295,7 @@ workflows:
           filters:
             branches:
               only:
-                - test
+                - staging
       - macos-staging:
           requires:
             - node

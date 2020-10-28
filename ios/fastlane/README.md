@@ -21,21 +21,41 @@ or alternatively using `brew install fastlane`
 fastlane ios test
 ```
 Runs all the tests
+### ios write_to_env
+```
+fastlane ios write_to_env
+```
+Add env variables
 ### ios adhoc
 ```
 fastlane ios adhoc
 ```
 Ad-hoc build
+### ios adhoc_staging
+```
+fastlane ios adhoc_staging
+```
+
+### ios te
+```
+fastlane ios te
+```
+
 ### ios dev
 ```
 fastlane ios dev
 ```
-Deploy to Firebase internal developer group
-### ios custom_lane
+Deploy to Firebase internal tester group
+### ios staging
 ```
-fastlane ios custom_lane
+fastlane ios staging
 ```
-Description of what the lane does
+
+### ios publish_to_firebase
+```
+fastlane ios publish_to_firebase
+```
+Deploy to Firebase
 
 ----
 
