@@ -308,10 +308,10 @@ PODS:
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
   - React-jsinspector (0.63.3)
-  - react-native-config (1.3.3):
-    - react-native-config/App (= 1.3.3)
-  - react-native-config/App (1.3.3):
-    - React
+  - react-native-config (1.4.0):
+    - react-native-config/App (= 1.4.0)
+  - react-native-config/App (1.4.0):
+    - React-Core
   - React-RCTActionSheet (0.63.3):
     - React-Core/RCTActionSheetHeaders (= 0.63.3)
   - React-RCTAnimation (0.63.3):
@@ -548,7 +548,7 @@ SPEC CHECKSUMS:
   React-jsi: df07aa95b39c5be3e41199921509bfa929ed2b9d
   React-jsiexecutor: b56c03e61c0dd5f5801255f2160a815f4a53d451
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
-  react-native-config: 9a061347e0136fdb32d43a34d60999297d672361
+  react-native-config: f309b9ac19456dea12325699af51e0fa0217ce6a
   React-RCTActionSheet: 53ea72699698b0b47a6421cb1c8b4ab215a774aa
   React-RCTAnimation: 1befece0b5183c22ae01b966f5583f42e69a83c2
   React-RCTBlob: 0b284339cbe4b15705a05e2313a51c6d8b51fa40
@@ -562,6 +562,6 @@ SPEC CHECKSUMS:
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: a37aee40983314f69c1a1707a291a4adfe6b7dba
+PODFILE CHECKSUM: 418d709a7f1d86fdb254d5d9526d06d4efd1ef01
 
 COCOAPODS: 1.8.4

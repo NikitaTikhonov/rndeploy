@@ -54,14 +54,14 @@ const App: () => React$Node = () => {
               </Text>
             </View>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
+              <Text style={styles.sectionTitle}>{Config.MY_VARIABLE}</Text>
               <Text style={styles.sectionDescription}>
                 <DebugInstructions />
               </Text>
             </View>
             <View style={styles.sectionContainer}>
               <Text style={[styles.sectionTitle, {color: 'red'}]}>
-                {Config.MY_VARIABLE}
+                {JSON.stringify(Config) + '!'}
               </Text>
               <Text style={styles.sectionDescription}>
                 Read the docs to discover what to do next:
