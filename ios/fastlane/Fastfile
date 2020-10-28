@@ -80,7 +80,7 @@ platform :ios do
 
   desc "Deploy to Firebase"
   lane :publish_to_firebase do |options|
-    build_notes = "Branch: #{options[:branch]}. Built by #{options[:author]}.\n Notes: #{notes}"
+    build_notes = "Branch: #{options[:branch]}. Built by #{options[:author]}.\n Notes: #{options[:notes]}"
     firebase_app_distribution(
         app: "#{options[:app_id]}",
         groups: "#{options[:groups]}",
