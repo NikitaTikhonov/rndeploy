@@ -262,8 +262,7 @@ jobs:
 
       - run:
           name: Fastlane
-          command: bundle exec fastlane staging branch:${CIRCLE_BRANCH} app_id:$FIREBASE_IOS_APP_ID\
-            firebase_token:$FIREBASE_TOKEN groups:"staging" my_variable:$MY_VARIABLE
+          command: bundle exec fastlane staging branch:${CIRCLE_BRANCH} app_id:$FIREBASE_IOS_APP_ID firebase_token:$FIREBASE_TOKEN groups:"staging" my_variable:$MY_VARIABLE
           working_directory: ios
 
       - store_artifacts:
